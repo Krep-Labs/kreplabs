@@ -292,7 +292,6 @@
           </ul>
         </div>
         <form class="hire-form" id="hireForm" novalidate data-reveal>
-          <input type="text" name="_gotcha" id="hp" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
           <div class="field"><label for="hn">Your name</label><input id="hn" name="name" type="text" autocomplete="name" required></div>
           <div class="field"><label for="he">Your email</label><input id="he" name="email" type="email" autocomplete="email" required></div>
           <div class="field"><label for="ht">What do you need?</label><select id="ht" name="type"><option>A project</option><option>A tool</option><option>Consulting</option><option>Something else</option></select></div>
@@ -362,12 +361,11 @@
     var form=document.getElementById('hireForm'); if(!form) return;
     var FS_ENDPOINT='https://formspree.io/f/mqpqpbra';
     var st=document.getElementById('hireStatus');
-    var btn=form.querySelector('.hire-send'), hp=document.getElementById('hp'), last=0;
+    var btn=form.querySelector('.hire-send'), last=0;
     function setSt(msg,kind){ if(!st) return; st.hidden=false; st.textContent=msg; st.className='hire-status'+(kind?(' '+kind):''); }
     function lock(ms){ if(btn){ btn.disabled=true; setTimeout(function(){ btn.disabled=false; },ms||20000); } }
     form.addEventListener('submit',function(e){
       e.preventDefault();
-      if(hp&&hp.value){ setSt('Thanks, your request has been sent.','ok'); form.reset(); return; }
       var now=Date.now();
       if(now-last<20000){ setSt('Just sent one, give it a moment before the next.','err'); return; }
       var name=(document.getElementById('hn').value||'').trim();
