@@ -20,7 +20,7 @@
 </p>
 
 <p>
-<a href="mailto:contact@kreplabs.com"><img src="https://raw.githubusercontent.com/krepped/krepped.nl/main/github/kreplabs/contact.svg" alt="Start a conversation: contact@kreplabs.com" width="100%"></a>
+<a href="mailto:krep@kreplabs.com"><img src="https://raw.githubusercontent.com/krepped/krepped.nl/main/github/kreplabs/contact.svg?v=1" alt="Start a conversation: krep@kreplabs.com" width="100%"></a>
 </p>
 
 <p>
