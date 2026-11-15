@@ -187,7 +187,6 @@
   @media (max-width:860px){ .hire-grid{grid-template-columns:1fr; gap:30px} }
   .hp{position:absolute!important; left:-9999px!important; width:1px; height:1px; overflow:hidden; opacity:0}
   .btn:disabled{opacity:.5; cursor:not-allowed; transform:none}
-  .cf-turnstile{margin:2px 0 0; min-height:65px}
 
   footer{border-top:1px solid var(--line)}
   .foot-in{display:flex; justify-content:space-between; align-items:center; gap:18px; flex-wrap:wrap; padding-block:30px; color:var(--faint); font-size:14px}
@@ -199,9 +198,7 @@
   @media (max-width:560px){ .gut{padding-left:20px; padding-right:20px} .stats{gap:12px 26px} }
   @media (prefers-reduced-motion:reduce){ html{scroll-behavior:auto} .btn:hover,.serv:hover,.nav-cta:hover{transform:none} }
 </style>
-</head>
-<body>
-<script>try{history.scrollRestoration='manual';}catch(e){}window.scrollTo(0,0);</script>
+
 <div class="loader" id="loader" aria-hidden="true">
   <svg class="loader-mk" viewBox="0 0 100 100"><g transform="skewX(-12)"><rect class="ls1" x="22" y="30" width="52" height="16" fill="#f5f5f7"/><rect class="ls2" x="38" y="56" width="52" height="16" fill="#8a8a94"/></g></svg>
 </div>
@@ -300,7 +297,6 @@
           <div class="field"><label for="he">Your email</label><input id="he" name="email" type="email" autocomplete="email" required></div>
           <div class="field"><label for="ht">What do you need?</label><select id="ht" name="type"><option>A project</option><option>A tool</option><option>Consulting</option><option>Something else</option></select></div>
           <div class="field"><label for="hd">Details</label><textarea id="hd" name="details" rows="4" required placeholder="What are you building, and by when?"></textarea></div>
-          <div class="cf-turnstile" data-sitekey="1x00000000000000000000AA" data-theme="dark"></div>
           <button class="btn primary hire-send" type="submit">Send request</button>
           <p class="hire-status" id="hireStatus" hidden></p>
         </form>
@@ -334,7 +330,6 @@
 </footer>
 </div>
 
-<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.20/dist/lenis.min.js"></script>
@@ -365,9 +360,11 @@
 
   (function(){
     var form=document.getElementById('hireForm'); if(!form) return;
+    var FS_ENDPOINT='https://formspree.io/f/YOUR_FORM_ID';
     var st=document.getElementById('hireStatus');
     var btn=form.querySelector('.hire-send'), hp=document.getElementById('hp'), last=0;
     function setSt(msg,kind){ if(!st) return; st.hidden=false; st.textContent=msg; st.className='hire-status'+(kind?(' '+kind):''); }
+    function lock(ms){ if(btn){ btn.disabled=true; setTimeout(function(){ btn.disabled=false; },ms||20000); } }
     form.addEventListener('submit',function(e){
       e.preventDefault();
       if(hp&&hp.value){ setSt('Thanks, your request has been sent.','ok'); form.reset(); return; }
@@ -379,14 +376,25 @@
       var details=(document.getElementById('hd').value||'').trim();
       if(!name||!email||!details){ setSt('Please add your name, email and a few details.','err'); return; }
       if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){ setSt('That email looks off, mind double-checking it?','err'); return; }
-      if(window.turnstile&&typeof turnstile.getResponse==='function'){ var tok=''; try{ tok=turnstile.getResponse(); }catch(_){}  if(!tok){ setSt('Please complete the verification above first.','err'); return; } }
+      last=now;
+      if(FS_ENDPOINT.indexOf('YOUR_FORM_ID')===-1 && window.fetch){
+        lock();
+        var btxt=btn?btn.textContent:''; if(btn) btn.textContent='Sending...';
+        setSt('Sending your request...','');
+        var fd=new FormData();
+        fd.append('name',name); fd.append('email',email); fd.append('type',type);
+        fd.append('details',details); fd.append('_subject','[Krep Labs] '+type+' from '+name);
+        fetch(FS_ENDPOINT,{method:'POST',headers:{'Accept':'application/json'},body:fd})
+          .then(function(r){ return r.ok ? r.json().catch(function(){return {};}) : Promise.reject(r); })
+          .then(function(){ form.reset(); if(btn) btn.textContent=btxt; setSt('Thanks, your request has been sent. I’ll reply to '+email+'.','ok'); })
+          .catch(function(){ if(btn){ btn.textContent=btxt; btn.disabled=false; } setSt('Could not send just now. Email krep@kreplabs.com directly and I’ll get it.','err'); });
+        return;
+      }
       var subject='[Krep Labs] '+type+' from '+name;
       var body='Name: '+name+'\nEmail: '+email+'\nRequest: '+type+'\n\n'+details;
-      last=now;
-      if(btn){ btn.disabled=true; setTimeout(function(){ btn.disabled=false; },20000); }
+      lock();
       try{ window.location.href='mailto:krep@kreplabs.com?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(body); }catch(_){}
       setSt('Opening your email app to send to krep@kreplabs.com. If nothing opens, email that address directly.','ok');
-      if(window.turnstile){ try{ turnstile.reset(); }catch(_){} }
     });
   })();
 
@@ -528,5 +536,4 @@
 })();
 </script>
 
-</body>
-</html>
+</body></html>
