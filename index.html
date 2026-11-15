@@ -1,3 +1,8 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Krep Labs</title>
 <meta name="description" content="Independent studio building products people rely on">
 <meta property="og:type" content="website">
@@ -10,13 +15,14 @@
 <meta property="og:image:height" content="640">
 <meta property="og:image:alt" content="Krep Labs. We build software, and keep it safe. An independent studio.">
 <meta name="twitter:card" content="summary_large_image">
-<script>try{history.scrollRestoration='manual';}catch(e){}window.scrollTo(0,0);</script>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="twitter:title" content="Krep Labs">
+<meta name="twitter:description" content="Independent studio building products people rely on">
+<meta name="twitter:image" content="https://kreplabs.com/og.jpg">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&display=swap">
+<style>img{max-width:100%}[hidden]{display:none!important}</style>
 <style>
   :root{
     --frame:#141414; --bg:#141414; --bg-2:#212121; --bg-3:#2c2c2c;
@@ -32,6 +38,9 @@
   body{margin:0; background:var(--frame); color:var(--muted); font-family:var(--sans); -webkit-font-smoothing:antialiased; overflow-x:hidden; line-height:1.6; font-size:16px; padding:6px; -webkit-user-select:none; -moz-user-select:none; user-select:none; -webkit-touch-callout:none}
   body::before{content:""; position:fixed; inset:0 0 auto; height:env(safe-area-inset-top,0px); background:var(--frame); z-index:80}
   a{color:inherit; text-decoration:none}
+  .loader{position:fixed; inset:0; z-index:200; background:#0f0f10; display:flex; align-items:center; justify-content:center; will-change:opacity}
+  .loader-mk{width:clamp(78px,13vw,126px); height:auto; overflow:visible}
+  body.loading{overflow:hidden}
   .page{background:var(--bg); border-radius:22px; overflow:hidden; position:relative}
   .gut{padding-left:clamp(22px,4vw,54px); padding-right:clamp(22px,4vw,54px)}
   .wrap{max-width:var(--max); margin:0 auto; width:100%}
@@ -82,8 +91,6 @@
      linear-gradient(90deg, rgba(10,11,14,.72), transparent 56%)}
   .hero-in{position:relative; z-index:2; min-height:inherit; display:flex; flex-direction:column; justify-content:flex-end; align-items:flex-start; text-align:left;
     padding-top:clamp(110px,16vh,180px); padding-bottom:clamp(48px,7vw,86px); padding-left:clamp(28px,8.5vw,150px); padding-right:var(--gutter)}
-  .badge{display:inline-flex; align-items:center; gap:9px; font-size:13.5px; font-weight:500; color:var(--fg); background:color-mix(in srgb,var(--bg-2) 76%,transparent); border:1px solid var(--line); padding:7px 15px 7px 11px; border-radius:40px; backdrop-filter:blur(6px)}
-  .badge .d{width:7px; height:7px; border-radius:50%; background:var(--accent); box-shadow:0 0 10px rgba(246,166,55,.8)}
   .giant{font-size:clamp(68px,15.5vw,224px); font-weight:800; line-height:.86; letter-spacing:-.055em; color:var(--fg); margin:22px 0 0 -0.055em; text-shadow:0 6px 60px rgba(0,0,0,.55)}
   .stats{display:flex; flex-wrap:wrap; gap:14px 42px; margin-top:34px}
   .stats .s b{font-size:clamp(20px,2.6vw,26px); font-weight:700; color:var(--fg); letter-spacing:-.02em} .stats .s span{color:var(--muted); font-size:13.5px; display:block; margin-top:2px}
@@ -101,16 +108,32 @@
 
   .about-grid{display:grid; grid-template-columns:1.15fr 1fr; gap:36px 56px; align-items:start}
   .about-title{font-size:clamp(28px,4.2vw,46px); line-height:1.1; letter-spacing:-.035em; margin:14px 0 0; max-width:17ch}
-  .soon-sec{position:relative; overflow:hidden; min-height:72vh; display:flex; align-items:center; padding-block:clamp(80px,12vh,150px)}
-  .soon-sec::before{content:""; position:absolute; inset:0; z-index:0; pointer-events:none; background:radial-gradient(58% 62% at 50% 40%, rgba(255,255,255,.045), transparent 72%)}
-  .soon-sec .wrap{position:relative; z-index:1}
-  .soon-title{font-size:clamp(54px,10.5vw,138px); line-height:.9; letter-spacing:-.055em; font-weight:800; color:var(--fg); margin:22px 0 0; text-wrap:balance}
-  .soon-sub{font-size:clamp(16px,1.5vw,19px); color:var(--muted); margin:24px 0 0; max-width:52ch; line-height:1.65}
-  .soon-sub a{color:var(--fg); text-decoration:underline; text-underline-offset:3px; text-decoration-color:var(--line-2); transition:text-decoration-color .2s}
-  .soon-sub a:hover{text-decoration-color:var(--accent)}
-  .soon-sec .badge .d{animation:soonpulse 2.4s ease-in-out infinite}
-  @keyframes soonpulse{0%,100%{opacity:1}50%{opacity:.35}}
-  @media (prefers-reduced-motion:reduce){ .soon-sec .badge .d{animation:none} }
+  .feat-head{margin-bottom:clamp(30px,4vw,56px)}
+  .feat-head .eyebrow{display:inline-block; margin-bottom:14px}
+  .feat-title{font-size:clamp(46px,7.5vw,94px); font-weight:800; letter-spacing:-.045em; line-height:.94; color:var(--fg)}
+  #work .wrap{max-width:none}
+  #work .gut{padding-left:clamp(28px,8.5vw,150px); padding-right:var(--gutter)}
+  .proj-tag{display:block; font-size:clamp(14.5px,1.15vw,16.5px); color:var(--muted); line-height:1.5}
+  .feat-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:clamp(14px,1.4vw,20px); align-items:stretch}
+  .pcard{display:flex; flex-direction:column; min-width:0}
+  .pcard-top{margin-bottom:clamp(15px,1.8vw,22px)}
+  .pcard-head{display:flex; align-items:baseline; justify-content:space-between; gap:14px}
+  .proj-name{font-size:clamp(23px,2.4vw,32px); font-weight:700; color:var(--fg); letter-spacing:-.03em; line-height:1}
+  .pcard-top .proj-tag{margin-top:9px}
+  .pcard-link{flex-shrink:0; font-size:14.5px; font-weight:600; color:var(--muted); display:inline-flex; align-items:center; gap:6px; transition:color .25s,gap .25s}
+  .pcard-link svg{stroke:currentColor}
+  a.pcard:hover .pcard-link{color:var(--fg); gap:9px}
+  .pcard-media{position:relative; margin-top:auto; aspect-ratio:16/10.4; border-radius:16px; overflow:hidden; border:1px solid var(--line); background:var(--bg-2); transition:transform .45s cubic-bezier(.2,.7,.2,1), border-color .45s, box-shadow .45s}
+  .pcard-media img{width:100%; height:100%; object-fit:cover; object-position:top center; display:block; transition:transform .6s cubic-bezier(.2,.7,.2,1)}
+  a.pcard:hover .pcard-media{transform:translateY(-8px); border-color:var(--line-2); box-shadow:0 26px 54px -28px rgba(0,0,0,.8)}
+  .pcard-media.soon{display:flex; align-items:center; justify-content:center; background:radial-gradient(82% 82% at 50% 40%, var(--bg-3), var(--bg-2))}
+  .soon-mk{width:clamp(54px,5.4vw,70px); height:auto; opacity:.24; overflow:visible}
+  .pcard.soon .proj-name{color:var(--muted)}
+  @media (max-width:940px){ .feat-grid{grid-template-columns:1fr 1fr; gap:clamp(16px,2.4vw,24px)} }
+  @media (max-width:600px){
+    .feat-grid{grid-template-columns:1fr; gap:clamp(22px,6vw,34px)}
+    .pcard-media{aspect-ratio:16/10}
+  }
   .about-r p{font-size:16.5px; line-height:1.66; color:var(--muted); margin:0 0 16px} .about-r p:last-child{margin-bottom:0}
   .about-tags{display:flex; flex-wrap:wrap; gap:10px; margin-top:24px}
   .about-tags span{font-size:13.5px; color:var(--fg); background:var(--bg-2); border:1px solid var(--line); padding:7px 14px; border-radius:40px}
@@ -123,32 +146,26 @@
   .serv h4{font-size:19px; margin:20px 0 8px; letter-spacing:-.02em}
   .serv p{margin:0; font-size:14.5px; line-height:1.6; color:var(--muted)}
 
-  .port-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:56px}
-  .pcard{background:var(--bg-2); border:1px solid var(--line); border-radius:var(--r); overflow:hidden; transition:transform .35s cubic-bezier(.2,.7,.2,1),border-color .35s; display:flex; flex-direction:column}
-  .pcard:hover{transform:translateY(-6px); border-color:var(--line-2)}
-  .pviz{aspect-ratio:16/10; position:relative; overflow:hidden; border-bottom:1px solid var(--line); display:flex; align-items:center; justify-content:center}
-  .pviz .m{position:relative; z-index:1; color:var(--accent); opacity:.92}
-  .pviz .m svg{width:56px; height:56px; fill:none; stroke:currentColor; stroke-width:1.5; stroke-linecap:round; stroke-linejoin:round}
-  .pviz.ob{background:radial-gradient(130% 120% at 26% 0%, rgba(246,166,55,.3), transparent 54%), linear-gradient(165deg,#1d1d24,#0f0f13)}
-  .pviz.s1{background:radial-gradient(130% 120% at 76% 6%, rgba(255,255,255,.07), transparent 52%), linear-gradient(150deg,#18181e,#0e0e12)} .pviz.s1 .m{color:var(--faint); opacity:.55}
-  .pviz.s2{background:radial-gradient(120% 120% at 50% 112%, rgba(246,166,55,.1), transparent 55%), linear-gradient(200deg,#16161b,#0e0e12)} .pviz.s2 .m{color:var(--faint); opacity:.55}
-  .pviz-grid{position:absolute; inset:0; opacity:.5; background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px); background-size:32px 32px; -webkit-mask-image:radial-gradient(78% 78% at 50% 42%,#000,transparent 82%); mask-image:radial-gradient(78% 78% at 50% 42%,#000,transparent 82%)}
-  .pbody{padding:26px; display:flex; flex-direction:column; flex:1}
-  .tag{display:inline-flex; align-items:center; gap:8px; font-size:12.5px; font-weight:600; color:var(--accent); background:rgba(246,166,55,.1); border:1px solid rgba(246,166,55,.22); padding:5px 13px; border-radius:40px; align-self:flex-start}
-  .tag .d{width:6px; height:6px; border-radius:50%; background:var(--accent)}
-  .tag.soon{color:var(--muted); background:rgba(255,255,255,.05); border-color:var(--line)} .tag.soon .d{background:var(--faint)}
-  .pbody h3{font-size:24px; margin:14px 0 0; letter-spacing:-.025em}
-  .pbody.soon h3{color:var(--faint)}
-  .pbody p{font-size:14.5px; line-height:1.6; color:var(--muted); margin:10px 0 0; flex:1}
-  .pbody .go{margin-top:18px; display:inline-flex; align-items:center; gap:8px; font-weight:600; color:var(--fg); transition:gap .2s}
-  .pcard:hover .go{gap:12px}
-
   .cta-band{position:relative; overflow:hidden; border-radius:26px; padding:clamp(48px,7vw,84px); text-align:center; background:radial-gradient(80% 120% at 50% 0%,#282828,var(--bg-2)); border:1px solid var(--line)}
   .cta-band::after{content:""; position:absolute; left:50%; bottom:-180px; translate:-50% 0; width:620px; height:360px; background:radial-gradient(closest-side,rgba(246,166,55,.2),transparent 70%); pointer-events:none}
   .cta-band h2{position:relative; font-size:clamp(32px,5vw,58px); max-width:16ch; margin:0 auto; letter-spacing:-.035em}
   .cta-band p{position:relative; color:var(--muted); font-size:17px; margin:16px auto 0; max-width:44ch}
   .cta-band .btn{position:relative; margin-top:30px}
   .cta-band .mail{position:relative; margin-top:16px; font-size:14px; color:var(--faint)} .cta-band .mail b{color:var(--muted); font-weight:500}
+  .cta-band .eyebrow{display:block; margin-bottom:14px}
+  .contact-mail{position:relative; display:inline-flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:10px; margin-top:26px; max-width:100%; background:var(--bg-2); border:1px solid var(--line-2); border-radius:40px; padding:9px 9px 9px 22px}
+  .contact-mail span{font-size:clamp(15px,2vw,18px); color:var(--fg); font-weight:500; -webkit-user-select:all; user-select:all; word-break:break-all}
+  .copy-btn{font-family:var(--sans); font-weight:600; font-size:14px; color:#0a0a0c; background:var(--fg); border:0; border-radius:40px; padding:9px 18px; cursor:pointer; transition:background .2s,transform .2s}
+  .copy-btn:hover{background:#fff; transform:translateY(-1px)}
+  .copy-btn.done{background:var(--accent)}
+  .contact-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:12px; margin:32px auto 0; max-width:620px; text-align:left}
+  .ccard{position:relative; display:flex; flex-direction:column; gap:5px; background:var(--bg-2); border:1px solid var(--line); border-radius:16px; padding:18px 48px 18px 20px; transition:border-color .25s,background .25s,transform .25s}
+  .ccard:hover{border-color:var(--line-2); background:var(--bg-3); transform:translateY(-3px)}
+  .ccard .cl{font-size:12px; font-weight:600; letter-spacing:.06em; text-transform:uppercase; color:var(--faint)}
+  .ccard .cv{font-size:18px; font-weight:600; color:var(--fg); letter-spacing:-.01em}
+  .ccard .ca{position:absolute; top:18px; right:18px; color:var(--faint); transition:color .25s,transform .25s}
+  .ccard:hover .ca{color:var(--accent); transform:translate(2px,-2px)}
+  @media (max-width:560px){ .contact-grid{grid-template-columns:1fr} }
 
   footer{border-top:1px solid var(--line)}
   .foot-in{display:flex; justify-content:space-between; align-items:center; gap:18px; flex-wrap:wrap; padding-block:30px; color:var(--faint); font-size:14px}
@@ -158,9 +175,14 @@
   @media (max-width:980px){ .serv-grid{grid-template-columns:1fr 1fr} }
   @media (max-width:860px){ .about-grid{grid-template-columns:1fr; gap:22px} .port-grid{grid-template-columns:1fr} }
   @media (max-width:560px){ .gut{padding-left:20px; padding-right:20px} .stats{gap:12px 26px} }
-  @media (prefers-reduced-motion:reduce){ html{scroll-behavior:auto} .btn:hover,.serv:hover,.pcard:hover,.nav-cta:hover{transform:none} }
+  @media (prefers-reduced-motion:reduce){ html{scroll-behavior:auto} .btn:hover,.serv:hover,.nav-cta:hover{transform:none} }
 </style>
-
+</head>
+<body>
+<script>try{history.scrollRestoration='manual';}catch(e){}window.scrollTo(0,0);</script>
+<div class="loader" id="loader" aria-hidden="true">
+  <svg class="loader-mk" viewBox="0 0 100 100"><g transform="skewX(-12)"><rect class="ls1" x="22" y="30" width="52" height="16" fill="#f5f5f7"/><rect class="ls2" x="38" y="56" width="52" height="16" fill="#8a8a94"/></g></svg>
+</div>
 <nav id="nav">
   <div class="nav-in">
     <a class="logo" href="#top" aria-label="Krep Labs">
@@ -204,11 +226,53 @@
 </header>
 
 <main>
-  <section class="block soon-sec" id="soon">
+  <section class="block" id="work">
     <div class="wrap gut">
-      <div class="center" data-reveal>
-        <h2 class="soon-title">Coming soon</h2>
-        <p class="soon-sub">The full site is on the way, built with the same care as everything we make. Our work and the details land here soon. Until then, say hello at <a href="mailto:krep@kreplabs.com">krep@kreplabs.com</a>.</p>
+      <div class="feat-head" data-reveal>
+        <span class="eyebrow">Our work</span>
+        <h2 class="feat-title">Featured projects</h2>
+      </div>
+      <div class="feat-grid">
+        <a class="pcard" href="https://krepped.nl" target="_blank" rel="noopener" data-reveal>
+          <div class="pcard-top">
+            <div class="pcard-head"><h3 class="proj-name">Portfolio</h3><span class="pcard-link">Visit <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+            <p class="proj-tag">My personal site and selected work, at krepped.nl.</p>
+          </div>
+          <div class="pcard-media"><img src="krepped-device.jpg" alt="The krepped.nl portfolio on a desktop screen and a phone" loading="lazy"></div>
+        </a>
+        <a class="pcard" href="https://obscuravm.com" target="_blank" rel="noopener" data-reveal>
+          <div class="pcard-top">
+            <div class="pcard-head"><h3 class="proj-name">Obscura</h3><span class="pcard-link">Visit <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+            <p class="proj-tag">Script protection for Roblox creators, live in production.</p>
+          </div>
+          <div class="pcard-media"><img src="obscura-device.jpg" alt="Obscura on a desktop screen and a phone" loading="lazy"></div>
+        </a>
+        <div class="pcard soon" data-reveal>
+          <div class="pcard-top">
+            <div class="pcard-head"><h3 class="proj-name">Coming soon</h3></div>
+            <p class="proj-tag">The next product is already in the works.</p>
+          </div>
+          <div class="pcard-media soon">
+            <svg class="soon-mk" viewBox="0 0 100 100" aria-hidden="true"><g transform="skewX(-12)"><rect x="22" y="30" width="52" height="16" fill="#8a8a94"/><rect x="38" y="56" width="52" height="16" fill="#8a8a94"/></g></svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="contact">
+    <div class="wrap gut">
+      <div class="cta-band">
+        <span class="eyebrow">Contact</span>
+        <h2>Let's build something that lasts.</h2>
+        <p>Open to new projects, collaborations, and the occasional hard problem. Reach me directly, or find me anywhere below.</p>
+        <div class="contact-mail"><span id="cmail">krep@kreplabs.com</span><button class="copy-btn" id="copyMail" type="button">Copy</button></div>
+        <div class="contact-grid">
+          <a class="ccard" href="https://github.com/Krep-Labs" target="_blank" rel="noopener"><span class="cl">GitHub, studio</span><span class="cv">Krep-Labs</span><svg class="ca" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+          <a class="ccard" href="https://github.com/krepped" target="_blank" rel="noopener"><span class="cl">GitHub, personal</span><span class="cv">krepped</span><svg class="ca" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+          <a class="ccard" href="https://www.linkedin.com/in/krep/" target="_blank" rel="noopener"><span class="cl">LinkedIn</span><span class="cv">in/krep</span><svg class="ca" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+          <a class="ccard" href="https://discordapp.com/users/250445392905371648" target="_blank" rel="noopener"><span class="cl">Discord</span><span class="cv">krepped</span><svg class="ca" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+        </div>
       </div>
     </div>
   </section>
@@ -217,7 +281,7 @@
 <footer>
   <div class="wrap gut foot-in">
     <span>&copy; <span id="yr"></span> Krep Labs</span>
-    <span class="links"><a href="https://krepped.nl">krepped.nl</a><a href="https://github.com/krepped">GitHub</a><a href="mailto:krep@kreplabs.com">Email</a></span>
+    <span class="links"><a href="https://krepped.nl" target="_blank" rel="noopener">krepped.nl</a><a href="https://github.com/Krep-Labs" target="_blank" rel="noopener">GitHub</a><a href="#contact">Contact</a></span>
   </div>
 </footer>
 </div>
@@ -229,6 +293,10 @@
 (function(){
   "use strict";
   var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion:reduce)').matches;
+  var loaderEl=document.getElementById('loader');
+  function blockScroll(e){ try{ e.preventDefault(); }catch(_){} }
+  function killLoader(){ if(!loaderEl) return; try{ document.body.classList.remove('loading'); loaderEl.style.display='none'; }catch(e){} try{ window.removeEventListener('wheel',blockScroll,{capture:true}); window.removeEventListener('touchmove',blockScroll,{capture:true}); }catch(e){} try{ if(lenis) lenis.start(); }catch(e){} }
+  if(loaderEl){ document.body.classList.add('loading'); window.addEventListener('wheel',blockScroll,{passive:false,capture:true}); window.addEventListener('touchmove',blockScroll,{passive:false,capture:true}); setTimeout(killLoader,5200); }
   var fine   = window.matchMedia && matchMedia('(pointer:fine)').matches;
   var hasG   = typeof gsap!=='undefined' && typeof ScrollTrigger!=='undefined';
   if('scrollRestoration' in history){ try{ history.scrollRestoration='manual'; }catch(e){} }
@@ -240,10 +308,14 @@
   window.addEventListener('load', hardTop);
   window.addEventListener('pageshow', function(e){ if(e && e.persisted) hardTop(); });
   document.getElementById('yr').textContent = new Date().getFullYear();
+  (function(){ var btn=document.getElementById('copyMail'); if(!btn) return; var mail='krep@kreplabs.com', orig=btn.textContent;
+    function flash(){ btn.classList.add('done'); btn.textContent='Copied'; setTimeout(function(){ btn.classList.remove('done'); btn.textContent=orig; },1400); }
+    function sel(){ try{ var el=document.getElementById('cmail'); var r=document.createRange(); r.selectNodeContents(el); var s=window.getSelection(); s.removeAllRanges(); s.addRange(r); }catch(_){} }
+    btn.addEventListener('click',function(){ try{ if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(mail).then(flash,function(){ sel(); flash(); }); } else { sel(); flash(); } }catch(e){ sel(); flash(); } });
+  })();
 
   var navEl=document.getElementById('nav');
-  var shrunk=null;
-  function navScroll(){ if(!navEl) return; var s=window.scrollY>24; if(s===shrunk) return; shrunk=s; navEl.classList.toggle('shrunk',s); }
+  function navScroll(){ if(navEl){ if(window.scrollY>24) navEl.classList.add('shrunk'); else navEl.classList.remove('shrunk'); } }
   navScroll(); window.addEventListener('scroll',navScroll,{passive:true});
   if(location.hash==='#shrunk' && navEl) navEl.classList.add('shrunk');
 
@@ -274,12 +346,12 @@
     try{ lenis=new Lenis({lerp:0.09, smoothWheel:true});
       if(hasG){ lenis.on('scroll',ScrollTrigger.update); gsap.ticker.add(function(t){lenis.raf(t*1000);}); gsap.ticker.lagSmoothing(0); }
       else { (function raf(t){lenis.raf(t);requestAnimationFrame(raf);})(0); }
-      lenis.scrollTo(0,{immediate:true});
+      lenis.scrollTo(0,{immediate:true}); if(document.body.classList.contains('loading')){ try{ lenis.stop(); }catch(e){} }
     }catch(e){}
   }
   if(hasG && !reduce){
     gsap.registerPlugin(ScrollTrigger);
-    var tl=gsap.timeline({defaults:{ease:'power3.out'}});
+    var tl=gsap.timeline({defaults:{ease:'power3.out'}, delay:loaderEl?2.35:0});
     tl.from('.giant',{opacity:0,y:30,duration:.9})
       .from('.hero .stats',{opacity:0,y:16,duration:.6},'-=.55')
       .from('.hero .lede',{opacity:0,y:16,duration:.6},'-=.5')
@@ -291,7 +363,15 @@
     gsap.to('.hero-viz',{opacity:0, scale:0.9, yPercent:-10, transformOrigin:'50% 42%', ease:'none', scrollTrigger:{trigger:'.hero', start:'24% top', end:'74% top', scrub:true}});
     gsap.to('.hero-in',{opacity:0, scale:0.92, yPercent:-10, transformOrigin:'0% 45%', ease:'none', scrollTrigger:{trigger:'.hero', start:'24% top', end:'74% top', scrub:true}});
     gsap.to('.hero-side',{opacity:0, scale:0.92, yPercent:-10, transformOrigin:'100% 45%', ease:'none', scrollTrigger:{trigger:'.hero', start:'24% top', end:'74% top', scrub:true}});
-  }
+
+    var ls1=loaderEl&&loaderEl.querySelector('.ls1'), ls2=loaderEl&&loaderEl.querySelector('.ls2'), lmk=loaderEl&&loaderEl.querySelector('.loader-mk');
+    if(loaderEl && ls1 && ls2 && lmk){
+      var lt=gsap.timeline({onComplete:killLoader});
+      var cyc=function(t){ lt.to([ls1],{x:13,duration:.4,ease:'power2.inOut'},t).to(ls2,{x:-13,duration:.4,ease:'power2.inOut'},t).to(lmk,{rotation:-7,scale:1.07,transformOrigin:'50% 50%',duration:.4,ease:'power2.inOut'},t).to([ls1,ls2],{x:0,duration:.44,ease:'power2.inOut'},t+0.52).to(lmk,{rotation:0,scale:1,duration:.44,ease:'power2.inOut'},t+0.52); };
+      cyc(0.35); cyc(1.4);
+      lt.to(loaderEl,{opacity:0,duration:.55,ease:'power2.inOut'}, 2.35);
+    } else { killLoader(); }
+  } else { killLoader(); }
 
   (function(){
     if(typeof gsap==='undefined' || reduce) return;
@@ -305,126 +385,60 @@
     logo.addEventListener('pointerleave',function(){ hovering=false; });
   })();
 
-  // The terrain behind the hero. Same picture as before, with less work per frame:
-  // - the sines and cosines that depend only on the column or only on the row are worked out once per frame
-  //   instead of once per point, and every buffer is reused, so nothing is allocated while it runs;
-  // - the canvas only covers the part of the hero the terrain can reach (it never rises above the horizon
-  //   line), so there are fewer pixels to clear, draw and composite, and the blurred nav doesn't sit on it;
-  // - it stops while the hero is off screen or faded out by the scroll animation, and while the tab is hidden;
-  // - when a slow device drops frames, the motion catches up, so it keeps its speed instead of slowing down;
-  // - if drawing a frame keeps taking too long, the canvas resolution steps down (1.6 -> 1.25 -> 1).
   (function(){
     var cv=document.getElementById('field'); if(!cv) return;
-    var viz=cv.parentElement, hero=document.querySelector('.hero')||viz;
-    var ctx=cv.getContext('2d'); var SCREEN=window.devicePixelRatio||1, DPR=Math.min(SCREEN,1.6);
+    var ctx=cv.getContext('2d'); var DPR=Math.min(window.devicePixelRatio||1,1.6);
     var small=window.innerWidth<700;
     var COLS=small?30:46, ROWS=small?16:22, STEP=small?34:27, FOCAL=430, NEARZ=72, STEPZ=16.5, CAMY=118;
     var Lx=0.46,Ly=0.78,Lz=0.43; var Ll=Math.sqrt(Lx*Lx+Ly*Ly+Lz*Lz); Lx/=Ll;Ly/=Ll;Lz/=Ll;
+    var W=0,H=0,cx=0,cy=0;
+    function resize(){ var r=cv.getBoundingClientRect(); W=r.width;H=r.height; cv.width=W*DPR;cv.height=H*DPR; ctx.setTransform(DPR,0,0,DPR,0,0); cx=W*0.5; cy=H*0.26; }
+    resize(); window.addEventListener('resize',resize);
+    var mx=0,tmx=0; if(fine) cv.parentElement.addEventListener('pointermove',function(e){ tmx=(e.clientX/window.innerWidth-0.5); });
+    var t=0, raf, last=-999, FRAME=1000/30;
     var A1=17,f1=0.0115, A2=12,f2=0.03, A3=8,f3=0.02,f4=0.019;
-    var ci=COLS+1, cj=ROWS+1, j, i;
-    // per row: depth, perspective scale and fog never change
-    var rowZ=new Float64Array(cj), rowScale=new Float64Array(cj), rowFog=new Float64Array(cj);
-    for(j=0;j<cj;j++){ rowZ[j]=NEARZ + j*STEPZ; rowScale[j]=FOCAL/rowZ[j]; rowFog[j]=Math.max(0,1 - j/(cj-1)); }
-    // per frame: column and row terms, then the points
-    var colWx=new Float64Array(ci), colSin=new Float64Array(ci), colCos=new Float64Array(ci);
-    var rowSin=new Float64Array(cj), rowCos=new Float64Array(cj);
-    var PX=new Float64Array(ci*cj), PY=new Float64Array(ci*cj), PS=new Float64Array(ci*cj);
-    var colors={}, colorCount=0;
-    function color(r,g,b){
-      var k=(r<<16)|(g<<8)|b, s=colors[k];
-      if(s) return s;
-      if(++colorCount>4096){ colors={}; colorCount=1; }
-      return (colors[k]='rgb('+r+','+g+','+b+')');
-    }
-
-    var W=0,H=0,cx=0,cy=0,top=0;
-    function resize(force){
-      // layout size, so a scroll-scaled hero doesn't skew it; same size as before means nothing to redo
-      var w=viz.clientWidth, h=viz.clientHeight;
-      if(!force && w===W && h===H) return;
-      W=w; H=h; cx=W*0.5; cy=H*0.26;
-      // The terrain stays at least ~80px below the horizon line cy, so the canvas can start there.
-      // It keeps the exact pixel grid of the old full-height canvas: same rows, same stretch to the screen,
-      // starting at a row k that lands on a whole screen pixel, so it looks pixel for pixel the same.
-      var rows=Math.floor(H*DPR), sy=H/rows, kmax=Math.floor(cy*DPR), k=0, best=1;
-      for(var kk=kmax; kk>=0 && kk>kmax-320; kk--){
-        var dev=kk*sy*SCREEN, off=Math.abs(dev-Math.round(dev));
-        if(off<best){ best=off; k=kk; if(off<0.001) break; }
-      }
-      if(best>0.01) k=0;
-      top=k*sy;
-      cv.width=W*DPR; cv.height=rows-k;
-      cv.style.top=top+'px'; cv.style.height=(H-top)+'px';
-      ctx.setTransform(DPR,0,0,DPR,0,-k);
-      render(0); // resizing clears the canvas: draw again right away instead of showing a blank frame
-    }
-    var mx=0,tmx=0; if(fine) viz.addEventListener('pointermove',function(e){ tmx=(e.clientX/window.innerWidth-0.5); });
-    var t=0, raf=0, last=-999, FRAME=1000/30, running=false, onScreen=true, lastRender=0;
-    var cost=0, costN=0;
-
-    function render(step){
-      var t0=performance.now();
-      t+=step; mx+=(tmx-mx)*0.045;
-      ctx.clearRect(0,top,W,H-top);
-      var tr=t*0.8, tp=t*0.5;
-      for(i=0;i<ci;i++){ var wx=(i-COLS/2)*STEP + mx*60; colWx[i]=wx; colSin[i]=Math.sin(wx*f1+t); colCos[i]=Math.cos(wx*f1+t); }
-      for(j=0;j<cj;j++){ rowSin[j]=Math.sin(rowZ[j]*f2+tr); rowCos[j]=Math.cos(rowZ[j]*f2+tr); }
-      for(j=0;j<cj;j++){
-        var z=rowZ[j], scale=rowScale[j], zf=z*f4, rs=A2*rowSin[j], rc=A2*f2*rowCos[j], o=j*ci;
-        for(i=0;i<ci;i++){
-          var wx2=colWx[i];
-          var p=(wx2*f3+zf)+tp;
-          var sp=Math.sin(p), cp=Math.cos(p);
-          var wy=A1*colSin[i] + rs + A3*sp;
-          var dHx=A1*f1*colCos[i] + A3*f3*cp;
-          var dHz=rc + A3*f4*cp;
+    function render(){
+      t+=0.014; mx+=(tmx-mx)*0.045;
+      ctx.clearRect(0,0,W,H);
+      var gx=[], gy=[], gsh=[], gf=[]; var ci=COLS+1, cj=ROWS+1;
+      for(var j=0;j<cj;j++){
+        var z=NEARZ + j*STEPZ, scale=FOCAL/z, fog=Math.max(0,1 - j/(cj-1));
+        var rowX=[],rowY=[],rowS=[];
+        for(var i=0;i<ci;i++){
+          var wx=(i-COLS/2)*STEP + mx*60;
+          var p=(wx*f3+z*f4)+t*0.5;
+          var wy=A1*Math.sin(wx*f1+t) + A2*Math.sin(z*f2+t*0.8) + A3*Math.sin(p);
+          var dHx=A1*f1*Math.cos(wx*f1+t) + A3*f3*Math.cos(p);
+          var dHz=A2*f2*Math.cos(z*f2+t*0.8) + A3*f4*Math.cos(p);
           var nx=-dHx, ny=1, nz=-dHz, nl=Math.sqrt(nx*nx+1+nz*nz); nx/=nl;ny/=nl;nz/=nl;
           var diff=nx*Lx+ny*Ly+nz*Lz; if(diff<0)diff=0;
-          PX[o+i]=cx + wx2*scale; PY[o+i]=cy + (CAMY-wy)*scale; PS[o+i]=diff;
+          rowX.push(cx + wx*scale); rowY.push(cy + (CAMY-wy)*scale); rowS.push(diff);
         }
+        gx.push(rowX); gy.push(rowY); gsh.push(rowS); gf.push(fog);
       }
       for(var j2=cj-2;j2>=0;j2--){
-        var fog2=rowFog[j2], a=j2*ci, b2=a+ci;
+        var fog2=gf[j2];
         for(var i2=0;i2<ci-1;i2++){
-          var d=PS[a+i2]; var lit=0.1+0.9*d; var base=15+lit*52;
-          var warm=Math.pow(d,2.6)*fog2;
+          var diff=gsh[j2][i2]; var lit=0.1+0.9*diff; var base=15+lit*52;
+          var warm=Math.pow(diff,2.6)*fog2;
           var r=base+warm*165, g=base+warm*96, b=base+warm*20;
           r=r*fog2+11*(1-fog2); g=g*fog2+12*(1-fog2); b=b*fog2+16*(1-fog2);
-          ctx.fillStyle=color(r|0,g|0,b|0);
+          ctx.fillStyle='rgb('+(r|0)+','+(g|0)+','+(b|0)+')';
           ctx.beginPath();
-          ctx.moveTo(PX[a+i2], PY[a+i2]);
-          ctx.lineTo(PX[a+i2+1], PY[a+i2+1]);
-          ctx.lineTo(PX[b2+i2+1], PY[b2+i2+1]);
-          ctx.lineTo(PX[b2+i2], PY[b2+i2]);
+          ctx.moveTo(gx[j2][i2], gy[j2][i2]);
+          ctx.lineTo(gx[j2][i2+1], gy[j2][i2+1]);
+          ctx.lineTo(gx[j2+1][i2+1], gy[j2+1][i2+1]);
+          ctx.lineTo(gx[j2+1][i2], gy[j2+1][i2]);
           ctx.closePath(); ctx.fill();
         }
       }
-      // a device that keeps needing more than 8ms per frame gets a lower canvas resolution
-      cost=costN?cost*0.9+(performance.now()-t0)*0.1:performance.now()-t0; costN++;
-      if(costN>45 && cost>8 && DPR>1){ DPR=DPR>1.25?1.25:1; costN=0; resize(true); }
     }
-    function faded(){ var op=viz.style.opacity; return op!=='' && +op<0.005; }
-    function loop(now){
-      if(!running) return;
-      raf=requestAnimationFrame(loop);
-      if(now-last<FRAME) return;
-      var dt=lastRender?now-lastRender:FRAME; last=now;
-      if(faded()){ lastRender=0; return; }
-      lastRender=now;
-      // normal frames step like before; frames a slow device dropped are made up (up to 4)
-      render(dt>FRAME*1.5 ? 0.014*Math.min(dt/FRAME,4) : 0.014);
-    }
-    function start(){ if(running || reduce || document.hidden || !onScreen) return; running=true; last=-999; lastRender=0; raf=requestAnimationFrame(loop); }
-    function stop(){ running=false; cancelAnimationFrame(raf); }
-
-    resize(true);
-    window.addEventListener('resize',function(){ resize(false); });
-    if(reduce){ render(0.014); return; }
-    start();
-    document.addEventListener('visibilitychange',function(){ if(document.hidden) stop(); else start(); });
-    if('IntersectionObserver' in window){
-      new IntersectionObserver(function(es){ onScreen=es[es.length-1].isIntersecting; if(onScreen) start(); else stop(); }).observe(hero);
-    }
+    function loop(now){ raf=requestAnimationFrame(loop); if(now-last<FRAME) return; last=now; render(); }
+    if(reduce){ render(); } else { raf=requestAnimationFrame(loop); }
+    document.addEventListener('visibilitychange',function(){ if(reduce)return; if(document.hidden){cancelAnimationFrame(raf);} else {last=-999; raf=requestAnimationFrame(loop);} });
   })();
 })();
 </script>
+
+</body>
+</html>
