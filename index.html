@@ -166,6 +166,28 @@
   .ccard .ca{position:absolute; top:18px; right:18px; color:var(--faint); transition:color .25s,transform .25s}
   .ccard:hover .ca{color:var(--accent); transform:translate(2px,-2px)}
   @media (max-width:560px){ .contact-grid{grid-template-columns:1fr} }
+  .hire-grid{display:grid; grid-template-columns:0.9fr 1.1fr; gap:40px 56px; align-items:start}
+  .hire-intro .eyebrow{display:inline-block; margin-bottom:14px}
+  .hire-h{font-size:clamp(28px,4.2vw,46px); line-height:1.1; letter-spacing:-.035em; max-width:13ch; color:var(--fg); font-weight:700}
+  .hire-p{font-size:16.5px; line-height:1.66; color:var(--muted); margin:16px 0 0; max-width:42ch}
+  .hire-list{list-style:none; padding:0; margin:26px 0 0; display:flex; flex-direction:column; gap:11px}
+  .hire-list li{position:relative; padding-left:22px; font-size:15.5px; color:var(--fg)}
+  .hire-list li::before{content:""; position:absolute; left:0; top:9px; width:7px; height:7px; border-radius:50%; background:var(--accent)}
+  .hire-form{display:flex; flex-direction:column; gap:15px; background:var(--bg-2); border:1px solid var(--line); border-radius:var(--r); padding:clamp(22px,3vw,32px)}
+  .field{display:flex; flex-direction:column; gap:7px; min-width:0}
+  .field label{font-size:13px; font-weight:600; color:var(--muted)}
+  .field input,.field select,.field textarea{width:100%; font-family:var(--sans); font-size:15.5px; color:var(--fg); background:var(--bg-3); border:1px solid var(--line-2); border-radius:12px; padding:13px 15px; transition:border-color .2s,box-shadow .2s}
+  .field input::placeholder,.field textarea::placeholder{color:var(--faint)}
+  .field input:focus,.field select:focus,.field textarea:focus{outline:none; border-color:var(--accent); box-shadow:0 0 0 3px rgba(246,166,55,.16)}
+  .field textarea{resize:vertical; min-height:112px}
+  .field select{appearance:none; -webkit-appearance:none; cursor:pointer; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' stroke='%239a9a9a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 6l4 4 4-4'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right 14px center; padding-right:40px}
+  .hire-send{align-self:flex-start; margin-top:4px}
+  .hire-status{margin:2px 0 0; font-size:14.5px; line-height:1.5; color:var(--muted)}
+  .hire-status.ok{color:var(--accent)} .hire-status.err{color:#ff9a9a}
+  @media (max-width:860px){ .hire-grid{grid-template-columns:1fr; gap:30px} }
+  .hp{position:absolute!important; left:-9999px!important; width:1px; height:1px; overflow:hidden; opacity:0}
+  .btn:disabled{opacity:.5; cursor:not-allowed; transform:none}
+  .cf-turnstile{margin:2px 0 0; min-height:65px}
 
   footer{border-top:1px solid var(--line)}
   .foot-in{display:flex; justify-content:space-between; align-items:center; gap:18px; flex-wrap:wrap; padding-block:30px; color:var(--faint); font-size:14px}
@@ -188,16 +210,15 @@
     <a class="logo" href="#top" aria-label="Krep Labs">
       <svg class="mk" viewBox="0 0 100 100" aria-hidden="true"><g transform="skewX(-12)"><rect class="s1" x="22" y="30" width="52" height="16" fill="#f5f5f7"/><rect class="s2" x="38" y="56" width="52" height="16" fill="#8a8a94"/></g></svg>
     </a>
-    <div class="nav-links"><a href="#about">About</a><a href="#services">Services</a><a href="#work">Work</a><a href="#contact">Contact</a></div>
+    <div class="nav-links"><a href="#work">Projects</a><a href="#hire">Hire</a><a href="#contact">Contact</a></div>
     <div class="nav-right">
       <a class="nav-cta" href="#contact">Get in touch</a>
       <button class="burger" id="burger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mmenu"><span></span><span></span></button>
     </div>
   </div>
   <div class="mobile-menu" id="mmenu">
-    <a href="#about">About</a>
-    <a href="#services">Services</a>
-    <a href="#work">Work</a>
+    <a href="#work">Projects</a>
+    <a href="#hire">Hire</a>
     <a href="#contact">Contact</a>
   </div>
 </nav>
@@ -219,7 +240,7 @@
     <p class="lede" data-reveal>We build software, and <span class="a">keep it safe.</span> <span class="mut">Designed, built and run end to end, then looked after.</span></p>
     <div class="cta-row" data-reveal>
       <a class="btn primary" href="#work">See our work</a>
-      <a class="btn ghost" href="#contact">Start a conversation</a>
+      <a class="btn ghost" href="#hire">Start a conversation</a>
     </div>
   </div>
   <div class="hero-side" data-reveal>An independent studio building products people rely on.</div>
@@ -238,7 +259,7 @@
             <div class="pcard-head"><h3 class="proj-name">Portfolio</h3><span class="pcard-link">Visit <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
             <p class="proj-tag">My personal site and selected work, at krepped.nl.</p>
           </div>
-          <div class="pcard-media"><img src="krepped-device.jpg" alt="The krepped.nl portfolio on a desktop screen and a phone" loading="lazy"></div>
+          <div class="pcard-media"><img src="krepped-device.jpg?v=2" alt="The krepped.nl portfolio on a desktop screen and a phone" loading="lazy"></div>
         </a>
         <a class="pcard" href="https://obscuravm.com" target="_blank" rel="noopener" data-reveal>
           <div class="pcard-top">
@@ -256,6 +277,33 @@
             <svg class="soon-mk" viewBox="0 0 100 100" aria-hidden="true"><g transform="skewX(-12)"><rect x="22" y="30" width="52" height="16" fill="#8a8a94"/><rect x="38" y="56" width="52" height="16" fill="#8a8a94"/></g></svg>
           </div>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="hire">
+    <div class="wrap gut">
+      <div class="hire-grid">
+        <div class="hire-intro" data-reveal>
+          <span class="eyebrow">Hire</span>
+          <h2 class="hire-h">Have something to build?</h2>
+          <p class="hire-p">Tell me about the project or tool you have in mind. Every request reaches me directly, and I'll reply to the email you leave.</p>
+          <ul class="hire-list">
+            <li>Web apps, sites and dashboards</li>
+            <li>Tools, automations and integrations</li>
+            <li>Security-minded, built and run end to end</li>
+          </ul>
+        </div>
+        <form class="hire-form" id="hireForm" novalidate data-reveal>
+          <input type="text" name="website" id="hp" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <div class="field"><label for="hn">Your name</label><input id="hn" name="name" type="text" autocomplete="name" required></div>
+          <div class="field"><label for="he">Your email</label><input id="he" name="email" type="email" autocomplete="email" required></div>
+          <div class="field"><label for="ht">What do you need?</label><select id="ht" name="type"><option>A project</option><option>A tool</option><option>Consulting</option><option>Something else</option></select></div>
+          <div class="field"><label for="hd">Details</label><textarea id="hd" name="details" rows="4" required placeholder="What are you building, and by when?"></textarea></div>
+          <div class="cf-turnstile" data-sitekey="1x00000000000000000000AA" data-theme="dark"></div>
+          <button class="btn primary hire-send" type="submit">Send request</button>
+          <p class="hire-status" id="hireStatus" hidden></p>
+        </form>
       </div>
     </div>
   </section>
@@ -286,6 +334,7 @@
 </footer>
 </div>
 
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.20/dist/lenis.min.js"></script>
@@ -312,6 +361,33 @@
     function flash(){ btn.classList.add('done'); btn.textContent='Copied'; setTimeout(function(){ btn.classList.remove('done'); btn.textContent=orig; },1400); }
     function sel(){ try{ var el=document.getElementById('cmail'); var r=document.createRange(); r.selectNodeContents(el); var s=window.getSelection(); s.removeAllRanges(); s.addRange(r); }catch(_){} }
     btn.addEventListener('click',function(){ try{ if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(mail).then(flash,function(){ sel(); flash(); }); } else { sel(); flash(); } }catch(e){ sel(); flash(); } });
+  })();
+
+  (function(){
+    var form=document.getElementById('hireForm'); if(!form) return;
+    var st=document.getElementById('hireStatus');
+    var btn=form.querySelector('.hire-send'), hp=document.getElementById('hp'), last=0;
+    function setSt(msg,kind){ if(!st) return; st.hidden=false; st.textContent=msg; st.className='hire-status'+(kind?(' '+kind):''); }
+    form.addEventListener('submit',function(e){
+      e.preventDefault();
+      if(hp&&hp.value){ setSt('Thanks, your request has been sent.','ok'); form.reset(); return; }
+      var now=Date.now();
+      if(now-last<20000){ setSt('Just sent one, give it a moment before the next.','err'); return; }
+      var name=(document.getElementById('hn').value||'').trim();
+      var email=(document.getElementById('he').value||'').trim();
+      var type=document.getElementById('ht').value||'A project';
+      var details=(document.getElementById('hd').value||'').trim();
+      if(!name||!email||!details){ setSt('Please add your name, email and a few details.','err'); return; }
+      if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){ setSt('That email looks off, mind double-checking it?','err'); return; }
+      if(window.turnstile&&typeof turnstile.getResponse==='function'){ var tok=''; try{ tok=turnstile.getResponse(); }catch(_){}  if(!tok){ setSt('Please complete the verification above first.','err'); return; } }
+      var subject='[Krep Labs] '+type+' from '+name;
+      var body='Name: '+name+'\nEmail: '+email+'\nRequest: '+type+'\n\n'+details;
+      last=now;
+      if(btn){ btn.disabled=true; setTimeout(function(){ btn.disabled=false; },20000); }
+      try{ window.location.href='mailto:krep@kreplabs.com?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(body); }catch(_){}
+      setSt('Opening your email app to send to krep@kreplabs.com. If nothing opens, email that address directly.','ok');
+      if(window.turnstile){ try{ turnstile.reset(); }catch(_){} }
+    });
   })();
 
   var navEl=document.getElementById('nav');
@@ -342,6 +418,18 @@
     });
   }
 
+  Array.prototype.forEach.call(document.querySelectorAll('a[href^="#"]'), function(a){
+    if(a.classList.contains('logo')) return;
+    a.addEventListener('click', function(e){
+      var href=a.getAttribute('href')||''; if(href.length<2) return;
+      var target = href==='#top' ? 0 : document.querySelector(href);
+      if(href!=='#top' && !target) return;
+      e.preventDefault();
+      if(navEl) navEl.classList.remove('menu-open');
+      if(lenis){ lenis.scrollTo(target,{duration:1.1,offset: href==='#top'?0:-6}); }
+      else { var y = target===0?0:(target.getBoundingClientRect().top+window.pageYOffset-6); window.scrollTo({top:y, behavior: reduce?'auto':'smooth'}); }
+    });
+  });
   if(typeof Lenis!=='undefined' && !reduce && fine){
     try{ lenis=new Lenis({lerp:0.09, smoothWheel:true});
       if(hasG){ lenis.on('scroll',ScrollTrigger.update); gsap.ticker.add(function(t){lenis.raf(t*1000);}); gsap.ticker.lagSmoothing(0); }
